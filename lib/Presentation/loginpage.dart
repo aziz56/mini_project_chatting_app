@@ -1,49 +1,57 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/Domain/entities/entities.dart';
+import 'package:flutter_application_2/Domain/usecase/usecase.dart';
+import 'package:flutter_application_2/Presentation/Chatroom.dart';
 import 'package:flutter_application_2/main.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
- 
+class LoginPage extends StatefulWidget{
   @override
-  LoginPageState createState() => LoginPageState();
+  State<StatefulWidget> createState() => _LoginPageState();
+
 }
- 
-class LoginPageState extends State<LoginPage> {
-  final usernameController = TextEditingController();
- 
+
+class _LoginPageState extends State<LoginPage>{
+  TextEditingController _usernameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: Text('Login Page'),
       ),
-      body: Center(
-      
+      body: Container(
+        padding: EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             TextField(
-              controller: usernameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Username',
+              controller: _usernameController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Username',
+                  hintText: 'Masukkan username anda disini'
               ),
             ),
-            ElevatedButton(
-              child: const Text('Login'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HomePage(username: usernameController.text)),
-                );
-              },
+            SizedBox(
+              height: 8.0,
             ),
+            ElevatedButton(
+                onPressed: (){
+                  setState(() {
+                    try{
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ChatroomPage(_usernameController.text))
+                      );
+                    }catch(e){
+                      print(e);
+                    }
+                  });
+                },
+                child: Text('Login'))
           ],
         ),
       ),
     );
   }
+
 }
